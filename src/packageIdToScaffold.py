@@ -1,4 +1,4 @@
-
+from blackfynn import Blackfynn
 import blackfynn
 
 #pkg = bf.get('N:package:99d63b9e-c902-4e0a-9694-3ea31caa6708')
