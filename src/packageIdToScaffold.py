@@ -27,7 +27,6 @@ class BFWorker(object):
     col = self.bf.get(collectionId)
     if type(col) is blackfynn.Collection:
       items = col.items
-      print(items)
       for item in items:
         if fileName == item.name:
           pkg = item
