@@ -27,14 +27,28 @@ async def getInfo(request):
 @app.route('/scaffold/<colId:string>/<fileName:string>')
 async def scaffold(request, colId, fileName):
     awsURL = bfWorker.getURLFromCollectionIdAndFileName(colId, splitext(fileName)[0])
+    print(awsURL)
     try:
       resp = requests.get(awsURL)
-      return json(resp.json())
+      return json({'awsURL':resp.url})
+
     except:
       return json({'error': 'error with the url '}, status=400)
 
+@app.route('discover/<datasetName:int>/<fileName:string>')
+async def discover(request, datasetName, fileName):
+    resp = requests.get('https://api.blackfynn.io/discover/search/files', {'query':fileName, 'datasetId': datasetName})
+    print(resp.json())
+    try:
+        return json({'awsURL': resp})
+    except:
+        return json({'error': 'error with the url '}, status=400)
+
+
+
 def main():
-    app.run(host='0.0.0.0', port=6765)
+    app.run(host='0.0.0.0', port=6767)
+
 
 
 if __name__ == '__main__':
