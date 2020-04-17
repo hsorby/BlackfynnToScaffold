@@ -53,7 +53,7 @@ async def get_discover_file(request, datasetName, fileName):
         return json({'error': f'No files found in dataset: {datasetName} of name: {fileName}'}, status=400)
 
 def main():
-    app.run(host='0.0.0.0', port=6767)
+    app.run(host='0.0.0.0', port=6765)
 
 
 
