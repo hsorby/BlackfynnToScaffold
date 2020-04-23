@@ -30,7 +30,6 @@ class Discover:
       if "URL" in item:
         newpath = os.path.join(path, item["URL"])
         url = self.awsClient.get_signed_url(newpath)
-        print(url)
         item["URL"] = url
       if "GlyphGeometriesURL" in item:
         newpath = os.path.join(path, item["GlyphGeometriesURL"])
