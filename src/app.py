@@ -35,27 +35,35 @@ async def scaffold(request, colId, fileName):
     except Exception as e:
       return json({'error': e}, status=400)
 
-@app.route('/blackfynn/<datasetName:string>/<fileName:string>')
+
+@app.route('/discover/scaffold/<packageId:string>')
+async def get_discover_scaffold(request, packageId):
+    try:
+        jsonData = discover.get_scaffold_from_package_id(packageId)
+        #use dumps to avoid double encoding
+        return json(jsonData, dumps=dumps, status=200)
+    except IndexError as e:
+        return json({'error': 'No files found with sourcepacageID: {packageId}'}, status=400)
+
+def main():
+    app.run(host='0.0.0.0', port=6765)
+
+@app.route('/blackfynn/dataset/<datasetName:string>/<fileName:string>')
 async def bf_get_file(request, datasetName, fileName):
     try:
         ds = bfWorker.bf.get_dataset(datasetName)
         file_url = ds.get_items_by_name('Derivatives')[0].get_items_by_name(fileName)[0].files[0].url
         return json({'awsURL': file_url}, status=200)
     except IndexError as e:
-        return json({'error': f'No files found in dataset: {datasetName} of name: {fileName}'}, status=400)
+        return json({'error': 'No files found in dataset: {datasetName} of name: {fileName}'}, status=400)
 
-@app.route('/discover/<datasetName:string>/<fileName:string>')
+@app.route('/discover/dataset/<datasetName:string>/<fileName:string>')
 async def get_discover_file(request, datasetName, fileName):
     try:
         url = discover.get_file(datasetName, fileName)
         return json({'awsURL': url}, status=200)
     except IndexError as e:
-        return json({'error': f'No files found in dataset: {datasetName} of name: {fileName}'}, status=400)
-
-def main():
-    app.run(host='0.0.0.0', port=6765)
-
-
+        return json({'error': 'No files found in dataset: {datasetName} of name: {fileName}'}, status=400)
 
 
 
