@@ -31,7 +31,7 @@ async def scaffold(request, colId, fileName):
     awsURL = bfWorker.getURLFromCollectionIdAndFileName(colId, splitext(fileName)[0])
     try:
       resp = requests.get(awsURL)
-      return json({'awsURL':resp.url})
+      return json(resp.json())
     except Exception as e:
       return json({'error': e}, status=400)
 
