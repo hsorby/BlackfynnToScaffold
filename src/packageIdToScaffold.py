@@ -1,20 +1,15 @@
-from blackfynn import Blackfynn
-import blackfynn
-
-#pkg = bf.get('N:package:99d63b9e-c902-4e0a-9694-3ea31caa6708')
-#print(pkg.sources)
-#pkg = bf.get('N:package:c31f905d-34b8-40b0-9e6d-244f039bede6')
-#print(pkg.sources)
-#collection=pkg.parent
+from pennsieve import Pennsieve
+import pennsieve
+from config import Config
 
 class BFWorker(object):
   def __init__(self, id):
-    self.bf = Blackfynn(id)
+    self.bf = Pennsieve(api_token=Config.PENNSIEVE_API_TOKEN, api_secret=Config.PENNSIEVE_API_SECRET)
 
 
   def getCollectionAndMetaFromPackageId(self, packageId):
     pkg = self.bf.get(packageId)
-    if type(pkg) is blackfynn.DataPackage:
+    if type(pkg) is pennsieve.DataPackage:
       colId = pkg.parent
       col = self.bf.get(colId)
       items = col.items
@@ -25,7 +20,7 @@ class BFWorker(object):
 
   def getURLFromCollectionIdAndFileName(self, collectionId, fileName):
     col = self.bf.get(collectionId)
-    if type(col) is blackfynn.Collection:
+    if type(col) is pennsieve.Collection:
       items = col.items
       for item in items:
         if fileName == item.name:
@@ -37,3 +32,18 @@ class BFWorker(object):
           except:
             return None
     return None
+
+  def getUrlfromPackageId(self, packageId):
+    pId = packageId
+    if ('N:' not in packageId):
+      pId = 'N:' + packageId
+    pk = self.bf.get(pId)
+    return pk.files[0].url
+
+  def getImagefromPackageId(self, packageId):
+    pId = packageId
+    if ('N:' not in packageId):
+      pId = 'N:' + packageId
+    pk = self.bf.get(pId)
+    # resp = requests.get(pk.files[0].url)
+    return pk.files[0].url
