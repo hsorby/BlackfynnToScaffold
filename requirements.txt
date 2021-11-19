@@ -1,3 +1,4 @@
 Sanic
 pennsieve
 boto3
+gunicorn
