@@ -3,11 +3,11 @@ from json import loads, dumps
 from os.path import splitext
 from sanic import Sanic
 from sanic.response import json, html, text, redirect
-from src.packageIdToScaffold import BFWorker
-from src.discover import Discover
+from app.packageIdToScaffold import BFWorker
+from app.discover import Discover
 import requests
 
-app = Sanic("dlapp")
+app = Sanic("app")
 
 logger = logging.getLogger(__name__)
 bfWorker = BFWorker(None)
@@ -61,12 +61,4 @@ async def get_discover_file(request, datasetName, fileName):
     except IndexError as e:
         return json({'error': f'No files found in dataset: {datasetName} of name: {fileName}'}, status=400)
 
-def main():
-    app.run(host='0.0.0.0', port=6768)
 
-
-
-
-
-if __name__ == '__main__':
-    main()

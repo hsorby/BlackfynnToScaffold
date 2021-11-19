@@ -1,6 +1,6 @@
 from pennsieve import Pennsieve
 import pennsieve
-from config import Config
+from app.config import Config
 
 class BFWorker(object):
   def __init__(self, id):

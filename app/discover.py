@@ -1,5 +1,5 @@
 import requests
-from awsClient import AWSClient
+from app.awsClient import AWSClient
 
 class Discover:
     def __init__(self):
