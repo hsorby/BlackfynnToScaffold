@@ -1,4 +1,5 @@
 Sanic
+sanic-cors >= 1.0.1
 pennsieve
 boto3
 gunicorn

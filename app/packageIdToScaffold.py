@@ -46,4 +46,5 @@ class BFWorker(object):
       pId = 'N:' + packageId
     pk = self.bf.get(pId)
     # resp = requests.get(pk.files[0].url)
-    return pk.files[0].url
+    return pk.files[0].url if pk is not None else ''
+

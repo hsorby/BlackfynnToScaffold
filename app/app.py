@@ -1,13 +1,17 @@
 import logging
+import requests
+
 from json import loads, dumps
 from os.path import splitext
 from sanic import Sanic
 from sanic.response import json, html, text, redirect
+from sanic_cors import CORS
+
 from app.packageIdToScaffold import BFWorker
 from app.discover import Discover
-import requests
 
 app = Sanic("app")
+CORS(app)
 
 logger = logging.getLogger(__name__)
 bfWorker = BFWorker(None)
